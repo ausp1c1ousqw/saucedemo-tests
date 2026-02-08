@@ -1,10 +1,10 @@
-import { loadEnv } from "./utils/loadEnv.js";
-loadEnv(".env.ci");
-
-import { subscribeLoggerToProcessEvents } from "auto-fw/logger";
-subscribeLoggerToProcessEvents();
-
 import hooks from "./hooks/hooks.js";
+import { subscribeLoggerToProcessEvents } from "auto-fw/logger";
+import { loadEnv } from "./utils/loadEnv.js";
+
+loadEnv(".env.local");
+
+subscribeLoggerToProcessEvents();
 
 export const config = {
   ...hooks,
@@ -16,13 +16,7 @@ export const config = {
     {
       browserName: "chrome",
       "goog:chromeOptions": {
-        args: [
-          "--headless=new",
-          "--disable-gpu",
-          "--no-sandbox",
-          "--disable-dev-shm-usage",
-          "--window-size=1920,1080",
-        ],
+        args: ["--user-data-dir=C:\\chrome-wdio-profile"],
       },
     },
   ],

@@ -1,5 +1,5 @@
 export const errors = {
-  "login error": "Epic sadface: Username and password do not match any user in this servic",
+  "login error": "Epic sadface: Username and password do not match any user in this service",
   "locked out error": "Epic sadface: Sorry, this user has been locked out.",
   "checkout error": "Error: First Name is required",
 };

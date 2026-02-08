@@ -13,7 +13,8 @@
     "artifacts:clean": "rm -rf ./artifacts"
   },
   "dependencies": {
-    "auto-fw": "github:ausp1c1ousqw/automation-framework-main"
+    "auto-fw": "github:ausp1c1ousqw/automation-framework-main",
+    "dotenv": "^17.2.4"
   },
   "devDependencies": {
     "@wdio/allure-reporter": "^9.23.3",

@@ -3,16 +3,14 @@ name: Node.js Automation Tests
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
+    env:
+      NODE_ENV: ci
 
     steps:
       - name: Checkout repository
@@ -21,21 +19,38 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
 
       - name: Clean old artifacts
         run: npm run artifacts:clean
+
       - name: Run tests
         run: npm run test-ci
 
       - name: Generate Allure report
         run: npm run allure:generate
+        if: always()
 
       - name: Upload Allure report artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: ./artifacts/allure-report
+        if: always()
+
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: ./artifacts/**/logs
+        if: always()
+
+      - name: Deploy Allure report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./artifacts/allure-report
+        if: always()
